@@ -755,19 +755,23 @@ while running:
 
 	draw_hp_bar(screen, 120, 5, player1.hp//10)
 	draw_text2(screen, str(int(player1.hp)) + "/1000", 10, 145, 6)
-	draw_hp_bar(screen, player1.rect.x, player1.rect.y - 10, player1.hp//10)
+	if player1.hp > 0:
+		draw_hp_bar(screen, player1.rect.x, player1.rect.y - 10, player1.hp//10)
 
 	draw_hp_bar(screen, 415, 5, player2.hp//10)
 	draw_text2(screen, str(int(player2.hp))+ "/1000", 10, 440, 6)
-	draw_hp_bar(screen, player2.rect.x, player2.rect.y - 10, player2.hp//10)
+	if player2.hp > 0:
+		draw_hp_bar(screen, player2.rect.x, player2.rect.y - 10, player2.hp//10)
 
 	draw_hp_bar(screen, 715, 5, player3.hp//10)
 	draw_text2(screen, str(int(player3.hp))+ "/1000", 10, 740, 6)
-	draw_hp_bar(screen, player3.rect.x, player3.rect.y - 10, player3.hp//10)
+	if player3.hp > 0:
+		draw_hp_bar(screen, player3.rect.x, player3.rect.y - 10, player3.hp//10)
 
 	draw_hp_bar(screen, 1015, 5, player4.hp//10)
 	draw_text2(screen, str(int(player4.hp))+ "/1000", 10, 1040, 6)
-	draw_hp_bar(screen, player4.rect.x, player4.rect.y - 10, player4.hp//10)
+	if player4.hp > 0:
+		draw_hp_bar(screen, player4.rect.x, player4.rect.y - 10, player4.hp//10)
 
 	#tabla de puntuación
 
