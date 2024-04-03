@@ -31,7 +31,7 @@ def draw_text2(surface, text, size, x, y):
 	surface.blit(text_surface, text_rect)
 
 def draw_hp_bar(surface, x, y, percentage):
-	BAR_LENGHT = 100
+	BAR_LENGHT = 50
 	BAR_HEIGHT = 10
 	fill = (percentage / 100) * BAR_LENGHT
 	border = pygame.Rect(x, y, BAR_LENGHT, BAR_HEIGHT)
@@ -40,7 +40,7 @@ def draw_hp_bar(surface, x, y, percentage):
 	pygame.draw.rect(surface, WHITE, border, 2)
 
 def draw_hp_bar2(surface, x, y, percentage):
-	BAR_LENGHT = 100
+	BAR_LENGHT = 50
 	BAR_HEIGHT = 10
 	fill = (percentage / 100) * BAR_LENGHT
 	border = pygame.Rect(x, y, BAR_LENGHT, BAR_HEIGHT)
@@ -49,7 +49,7 @@ def draw_hp_bar2(surface, x, y, percentage):
 	pygame.draw.rect(surface, BROWN, border, 2)
 
 def draw_mana_bar(surface, x, y, percentage):
-	BAR_LENGHT = 100
+	BAR_LENGHT = 50
 	BAR_HEIGHT = 10
 	fill = (percentage / 100) * BAR_LENGHT
 	border = pygame.Rect(x, y, BAR_LENGHT, BAR_HEIGHT)
@@ -120,7 +120,6 @@ class Player1(Player):
 		if not self.counter2:
 			if (time//100) % 50 == 0:
 				self.counter2 = True
-
 
 class Player2(Player):
 	def __init__(self):
@@ -484,7 +483,6 @@ running = True
 start = True
 while running:
 	if game_over1:
-
 		show_game_over_screenp1()
 		p_list = pygame.sprite.Group()
 		screen.blit(background,(0,0))
@@ -507,7 +505,6 @@ while running:
 		start_time = pygame.time.get_ticks()
 
 	if game_over2:
-
 		show_game_over_screenp2()
 		p_list = pygame.sprite.Group()
 		screen.blit(background,(0,0))
@@ -530,7 +527,6 @@ while running:
 		start_time = pygame.time.get_ticks()
 
 	if game_over3:
-		
 		show_game_over_screenp3()
 		p_list = pygame.sprite.Group()
 		screen.blit(background,(0,0))
@@ -553,7 +549,6 @@ while running:
 		start_time = pygame.time.get_ticks()
 
 	if game_over4:
-		
 		show_game_over_screenp4()
 		p_list = pygame.sprite.Group()
 		screen.blit(background,(0,0))
@@ -576,7 +571,6 @@ while running:
 		start_time = pygame.time.get_ticks()
 	
 	if game_over5:
-		
 		show_game_over_screend()
 		p_list = pygame.sprite.Group()
 		screen.blit(background,(0,0))
@@ -600,7 +594,7 @@ while running:
 
 	if start:
 		show_go_screen()
-		
+
 		start = False
 		p_list = pygame.sprite.Group()
 		screen.blit(background,(0,0))
@@ -625,6 +619,8 @@ while running:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			running = False
+			pygame.quit()
+			sys.exit()
 	
 	
 	now = (pygame.time.get_ticks() - start_time)//1000
@@ -654,6 +650,12 @@ while running:
 			game_over5 = True
 		if b == d and b > a and b > c:
 			game_over5 = True
+		if a == b and c == d and a != c:
+			game_over5 = True
+		if b == c and a == d and b != a:
+			game_over5 = True
+		if a == c and b == d and a != b:
+			game_over5 = True
 		if a == b == c and a > d:
 			game_over5 = True
 		if a == c == d and a > b:
@@ -669,12 +671,10 @@ while running:
 	# Checar colisiones - player1 - ogre
 	hits = pygame.sprite.spritecollide(player1, area_list, False)
 	for hit in hits:
-
 		if ogre.attack:
 			if player1.counter2:
 				player1.counter2 = False
-				print("damage")
-				player1.hp -= 220
+				player1.hp -= 217
 	
 	# Checar colisiones - player2 - ogre
 	hits = pygame.sprite.spritecollide(player2, area_list, False)
@@ -682,8 +682,7 @@ while running:
 		if ogre.attack:
 			if player2.counter2:
 				player2.counter2 = False
-				print("damage")
-				player2.hp -= 220
+				player2.hp -= 217
 		
 	# Checar colisiones - player3 - ogre
 	hits = pygame.sprite.spritecollide(player3, area_list, False)
@@ -691,8 +690,7 @@ while running:
 		if ogre.attack:
 			if player3.counter2:
 				player3.counter2 = False
-				print("damage")
-				player3.hp -= 220
+				player3.hp -= 217
 		
 	# Checar colisiones - player4 - ogre
 	hits = pygame.sprite.spritecollide(player4, area_list, False)
@@ -700,8 +698,7 @@ while running:
 		if ogre.attack:
 			if player4.counter2:
 				player4.counter2 = False
-				print("damage")
-				player4.hp -= 220
+				player4.hp -= 217
 		
 	# Checar colisiones - player1 - ogre
 	hits = pygame.sprite.spritecollide(player1, ogre_list, False)
@@ -718,10 +715,10 @@ while running:
 	for hit in hits:
 		keystate = pygame.key.get_pressed()
 		if player2.counter1:
-			if keystate[pygame.K_1]:
+			if keystate[pygame.K_p]:
 				player2.counter1 = False
 				player2.damage += 10
-		if not keystate[pygame.K_1]:
+		if not keystate[pygame.K_p]:
 			player2.counter1 = True
 
 	# Checar colisiones - player3 - ogre
@@ -757,16 +754,20 @@ while running:
 	draw_text1(screen, "P4", 20, 1000, 6)
 
 	draw_hp_bar(screen, 120, 5, player1.hp//10)
-	draw_text2(screen, str(int(player1.hp)) + "/1000", 10, 170, 6)
+	draw_text2(screen, str(int(player1.hp)) + "/1000", 10, 145, 6)
+	draw_hp_bar(screen, player1.rect.x, player1.rect.y - 10, player1.hp//10)
 
 	draw_hp_bar(screen, 415, 5, player2.hp//10)
-	draw_text2(screen, str(int(player2.hp))+ "/1000", 10, 470, 6)
+	draw_text2(screen, str(int(player2.hp))+ "/1000", 10, 440, 6)
+	draw_hp_bar(screen, player2.rect.x, player2.rect.y - 10, player2.hp//10)
 
 	draw_hp_bar(screen, 715, 5, player3.hp//10)
-	draw_text2(screen, str(int(player3.hp))+ "/1000", 10, 770, 6)
+	draw_text2(screen, str(int(player3.hp))+ "/1000", 10, 740, 6)
+	draw_hp_bar(screen, player3.rect.x, player3.rect.y - 10, player3.hp//10)
 
 	draw_hp_bar(screen, 1015, 5, player4.hp//10)
-	draw_text2(screen, str(int(player4.hp))+ "/1000", 10, 1070, 6)
+	draw_text2(screen, str(int(player4.hp))+ "/1000", 10, 1040, 6)
+	draw_hp_bar(screen, player4.rect.x, player4.rect.y - 10, player4.hp//10)
 
 	#tabla de puntuación
 
