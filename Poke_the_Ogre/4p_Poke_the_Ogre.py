@@ -80,6 +80,7 @@ class Player(pygame.sprite.Sprite):
 		self.counter1 = True
 		self.counter2 = True
 		self.damage = 0
+		self.start_time = pygame.time.get_ticks()
 
 class Player1(Player):
 	def __init__(self):
@@ -88,7 +89,8 @@ class Player1(Player):
 		self.rect.y = 133
 
 	def update(self):
-		time = pygame.time.get_ticks()
+		current_time = pygame.time.get_ticks()
+		elapsed_time = current_time - self.start_time
 		self.hp += 0.04
 		if self.hp < 0:
 			self.hp = 0
@@ -117,8 +119,10 @@ class Player1(Player):
 			self.rect.top = 50
 		if self.rect.bottom > 550:
 			self.rect.bottom = 550
+		if self.counter2:
+			self.start_time = pygame.time.get_ticks()
 		if not self.counter2:
-			if (time//100) % 50 == 0:
+			if elapsed_time >= 3000:
 				self.counter2 = True
 
 class Player2(Player):
@@ -128,7 +132,8 @@ class Player2(Player):
 		self.rect.y = 133
 				
 	def update(self):
-		time = pygame.time.get_ticks()
+		current_time = pygame.time.get_ticks()
+		elapsed_time = current_time - self.start_time
 		self.hp += 0.04
 		if self.hp < 0:
 			self.hp = 0
@@ -158,8 +163,10 @@ class Player2(Player):
 			self.rect.top = 50
 		if self.rect.bottom > 550:
 			self.rect.bottom = 550
+		if self.counter2:
+			self.start_time = pygame.time.get_ticks()
 		if not self.counter2:
-			if (time//100) % 50 == 0:
+			if elapsed_time >= 3000:
 				self.counter2 = True
 
 class Player3(Player):
@@ -169,7 +176,8 @@ class Player3(Player):
 		self.rect.y =  366
 			
 	def update(self):
-		time = pygame.time.get_ticks()
+		current_time = pygame.time.get_ticks()
+		elapsed_time = current_time - self.start_time
 		self.hp += 0.04
 		if self.hp < 0:
 			self.hp = 0
@@ -199,8 +207,10 @@ class Player3(Player):
 			self.rect.top = 50
 		if self.rect.bottom > 550:
 			self.rect.bottom = 550
+		if self.counter2:
+			self.start_time = pygame.time.get_ticks()
 		if not self.counter2:
-			if (time//100) % 50 == 0:
+			if elapsed_time >= 3000:
 				self.counter2 = True
 
 class Player4(Player):
@@ -210,7 +220,8 @@ class Player4(Player):
 		self.rect.y =  366
 				
 	def update(self):
-		time = pygame.time.get_ticks()
+		current_time = pygame.time.get_ticks()
+		elapsed_time = current_time - self.start_time
 		self.hp += 0.04
 		if self.hp < 0:
 			self.hp = 0
@@ -240,8 +251,10 @@ class Player4(Player):
 			self.rect.top = 50
 		if self.rect.bottom > 550:
 			self.rect.bottom = 550
+		if self.counter2:
+			self.start_time = pygame.time.get_ticks()
 		if not self.counter2:
-			if (time//100) % 50 == 0:
+			if elapsed_time >= 3000:
 				self.counter2 = True
 
 class Area(pygame.sprite.Sprite):
@@ -285,9 +298,12 @@ class Ogre(pygame.sprite.Sprite):
 		self.counter = True
 		self.attack = False
 		self.counter2 = False
+		self.n = 6000
+		self.start_time1 = pygame.time.get_ticks()
 
 	def update(self):
-		time1 = pygame.time.get_ticks()
+		current_time = pygame.time.get_ticks()
+		elapsed_time = current_time - self.start_time1
 		target_list = [player1, player2, player3, player4]
 		target_list = [t for t in target_list if t.hp >0]
 		distance_list = [(distance(self,t),t) for t in target_list]
@@ -314,8 +330,9 @@ class Ogre(pygame.sprite.Sprite):
 				self.counter = False
 				attack1 = Ogre_anim(ogre.rect.center)
 				all_sprites.add(attack1)
-		
-		if (time1//100) % 60 == 0:
+				self.start_time1 = pygame.time.get_ticks()
+
+		if elapsed_time >= self.n:
 			self.counter = True
 
 class Ogre_anim(pygame.sprite.Sprite):
@@ -324,7 +341,6 @@ class Ogre_anim(pygame.sprite.Sprite):
 		self.image = ogre_anim[0]
 		self.rect = self.image.get_rect()
 		self.rect.center = center
-		
 		self.frame = 0
 		self.last_update = pygame.time.get_ticks()
 		self.frame_rate = 50 # VELOCIDAD DE LA animación
@@ -594,7 +610,6 @@ while running:
 
 	if start:
 		show_go_screen()
-
 		start = False
 		p_list = pygame.sprite.Group()
 		screen.blit(background,(0,0))
@@ -625,7 +640,7 @@ while running:
 	
 	now = (pygame.time.get_ticks() - start_time)//1000
 	e = player1.hp == 0 and player2.hp == 0 and player3.hp == 0 and player4.hp == 0
-	if now == 120 or len(p_list) == 0:
+	if now >= 120 or len(p_list) == 0:
 		a = player1.damage
 		b = player2.damage
 		c = player3.damage
@@ -663,6 +678,8 @@ while running:
 		if b == c == d and a < c:
 			game_over5 = True
 		if a == b == d and a > c:
+			game_over5 = True
+		if a == b == c == d:
 			game_over5 = True
 
 	
