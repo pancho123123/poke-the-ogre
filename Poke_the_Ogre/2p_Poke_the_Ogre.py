@@ -169,94 +169,6 @@ class Player2(Player):
 			if elapsed_time >= 3000:
 				self.counter2 = True
 
-class Player3(Player):
-	def __init__(self):
-		super().__init__()
-		self.rect.x = 500
-		self.rect.y =  366
-			
-	def update(self):
-		current_time = pygame.time.get_ticks()
-		elapsed_time = current_time - self.start_time
-		self.hp += 0.04
-		if self.hp < 0:
-			self.hp = 0
-		if self.hp == 0:
-			self.kill()
-		if self.hp > 1000:
-			self.hp = 1000
-		self.speed_x = 0
-		self.speed_y = 0
-		keystate = pygame.key.get_pressed()
-		if keystate[pygame.K_f]:
-			self.speed_x = -3
-		if keystate[pygame.K_h]:
-			self.speed_x = 3
-		self.rect.x += self.speed_x
-		if keystate[pygame.K_t]:
-			self.speed_y = -3
-		if keystate[pygame.K_g]:
-			self.speed_y = 3
-		self.rect.y += self.speed_y
-		
-		if self.rect.right > WIDTH:
-			self.rect.right = WIDTH
-		if self.rect.left < 300:
-			self.rect.left = 300
-		if self.rect.top < 50:
-			self.rect.top = 50
-		if self.rect.bottom > 550:
-			self.rect.bottom = 550
-		if self.counter2:
-			self.start_time = pygame.time.get_ticks()
-		if not self.counter2:
-			if elapsed_time >= 3000:
-				self.counter2 = True
-
-class Player4(Player):
-	def __init__(self):
-		super().__init__()
-		self.rect.x = 900
-		self.rect.y =  366
-				
-	def update(self):
-		current_time = pygame.time.get_ticks()
-		elapsed_time = current_time - self.start_time
-		self.hp += 0.04
-		if self.hp < 0:
-			self.hp = 0
-		if self.hp == 0:
-			self.kill()
-		if self.hp > 1000:
-			self.hp = 1000
-		self.speed_x = 0
-		self.speed_y = 0
-		keystate = pygame.key.get_pressed()
-		if keystate[pygame.K_j]:
-			self.speed_x = -3
-		if keystate[pygame.K_l]:
-			self.speed_x = 3
-		self.rect.x += self.speed_x
-		if keystate[pygame.K_i]:
-			self.speed_y = -3
-		if keystate[pygame.K_k]:
-			self.speed_y = 3
-		self.rect.y += self.speed_y
-		
-		if self.rect.right > WIDTH:
-			self.rect.right = WIDTH
-		if self.rect.left < 300:
-			self.rect.left = 300
-		if self.rect.top < 50:
-			self.rect.top = 50
-		if self.rect.bottom > 550:
-			self.rect.bottom = 550
-		if self.counter2:
-			self.start_time = pygame.time.get_ticks()
-		if not self.counter2:
-			if elapsed_time >= 3000:
-				self.counter2 = True
-
 class Area(pygame.sprite.Sprite):
 
 	def __init__(self):
@@ -304,7 +216,7 @@ class Ogre(pygame.sprite.Sprite):
 	def update(self):
 		current_time = pygame.time.get_ticks()
 		elapsed_time = current_time - self.start_time1
-		target_list = [player1, player2, player3, player4]
+		target_list = [player1, player2]
 		target_list = [t for t in target_list if t.hp >0]
 		distance_list = [(distance(self,t),t) for t in target_list]
 		if len(distance_list)==0:
@@ -387,8 +299,7 @@ def show_game_over_screenp1():
 	draw_text1(screen, "Press Q", 20, WIDTH // 2, HEIGHT * 3/4)
 	draw_text1(screen, "P1 " + str(int(player1.damage)) , 20, WIDTH // 2, 420)
 	draw_text1(screen, "P2 " + str(int(player2.damage)) , 20, WIDTH // 2, 440)
-	draw_text1(screen, "P3 " + str(int(player3.damage)) , 20, WIDTH // 2, 460)
-	draw_text1(screen, "P4 " + str(int(player4.damage)) , 20, WIDTH // 2, 480)
+	
 	pygame.display.flip()
 	waiting = True
 	while waiting:
@@ -407,8 +318,7 @@ def show_game_over_screenp2():
 	draw_text1(screen, "Press Q", 20, WIDTH // 2, HEIGHT * 3/4)
 	draw_text1(screen, "P1 " + str(int(player1.damage)) , 20, WIDTH // 2, 420)
 	draw_text1(screen, "P2 " + str(int(player2.damage)) , 20, WIDTH // 2, 440)
-	draw_text1(screen, "P3 " + str(int(player3.damage)) , 20, WIDTH // 2, 460)
-	draw_text1(screen, "P4 " + str(int(player4.damage)) , 20, WIDTH // 2, 480)
+	
 	pygame.display.flip()
 	waiting = True
 	while waiting:
@@ -420,45 +330,6 @@ def show_game_over_screenp2():
 				if event.key == pygame.K_q:
 					waiting = False
 
-def show_game_over_screenp3():
-	screen.fill(BLACK)
-	#draw_text1(screen, "Qop", 65, WIDTH // 2, HEIGHT // 4)
-	draw_text1(screen, "Player 3 WINS", 40, WIDTH // 2, HEIGHT // 2)
-	draw_text1(screen, "Press Q", 20, WIDTH // 2, HEIGHT * 3/4)
-	draw_text1(screen, "P1 " + str(int(player1.damage)) , 20, WIDTH // 2, 420)
-	draw_text1(screen, "P2 " + str(int(player2.damage)) , 20, WIDTH // 2, 440)
-	draw_text1(screen, "P3 " + str(int(player3.damage)) , 20, WIDTH // 2, 460)
-	draw_text1(screen, "P4 " + str(int(player4.damage)) , 20, WIDTH // 2, 480)
-	pygame.display.flip()
-	waiting = True
-	while waiting:
-		clock.tick(60)
-		for event in pygame.event.get():
-			if event.type == pygame.QUIT:
-				pygame.quit()
-			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_q:
-					waiting = False
-
-def show_game_over_screenp4():
-	screen.fill(BLACK)
-	#draw_text1(screen, "Qop", 65, WIDTH // 2, HEIGHT // 4)
-	draw_text1(screen, "Player 4 WINS", 40, WIDTH // 2, HEIGHT // 2)
-	draw_text1(screen, "Press Q", 20, WIDTH // 2, HEIGHT * 3/4)
-	draw_text1(screen, "P1 " + str(int(player1.damage)) , 20, WIDTH // 2, 420)
-	draw_text1(screen, "P2 " + str(int(player2.damage)) , 20, WIDTH // 2, 440)
-	draw_text1(screen, "P3 " + str(int(player3.damage)) , 20, WIDTH // 2, 460)
-	draw_text1(screen, "P4 " + str(int(player4.damage)) , 20, WIDTH // 2, 480)
-	pygame.display.flip()
-	waiting = True
-	while waiting:
-		clock.tick(60)
-		for event in pygame.event.get():
-			if event.type == pygame.QUIT:
-				pygame.quit()
-			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_q:
-					waiting = False
 
 def show_game_over_screend():
 	screen.fill(BLACK)
@@ -467,8 +338,7 @@ def show_game_over_screend():
 	draw_text1(screen, "Press Q", 20, WIDTH // 2, HEIGHT * 3/4)
 	draw_text1(screen, "P1 " + str(int(player1.damage)) , 20, WIDTH // 2, 420)
 	draw_text1(screen, "P2 " + str(int(player2.damage)) , 20, WIDTH // 2, 440)
-	draw_text1(screen, "P3 " + str(int(player3.damage)) , 20, WIDTH // 2, 460)
-	draw_text1(screen, "P4 " + str(int(player4.damage)) , 20, WIDTH // 2, 480)
+	
 	pygame.display.flip()
 	waiting = True
 	while waiting:
@@ -493,8 +363,6 @@ background = pygame.transform.scale(pygame.image.load("img/fond.png").convert(),
 
 game_over1 = False
 game_over2 = False
-game_over3 = False
-game_over4 = False
 game_over5 = False
 running = True
 start = True
@@ -512,12 +380,9 @@ while running:
 		area_list.add(area)
 		player1 = Player1()
 		player2 = Player2()
-		player3 = Player3()
-		player4 = Player4()
-		all_sprites.add(player1, player2, player3, player4)
-		p_list.add(player1, player2, player3, player4)
 		ogre = Ogre()
-		all_sprites.add(ogre)
+		all_sprites.add(player1, player2, ogre)
+		p_list.add(player1, player2)
 		ogre_list.add(ogre)
 		start_time = pygame.time.get_ticks()
 
@@ -534,56 +399,9 @@ while running:
 		area_list.add(area)
 		player1 = Player1()
 		player2 = Player2()
-		player3 = Player3()
-		player4 = Player4()
-		all_sprites.add(player1, player2, player3, player4)
-		p_list.add(player1, player2, player3, player4)
 		ogre = Ogre()
-		all_sprites.add(ogre)
-		ogre_list.add(ogre)
-		start_time = pygame.time.get_ticks()
-
-	if game_over3:
-		show_game_over_screenp3()
-		p_list = pygame.sprite.Group()
-		screen.blit(background,(0,0))
-		area = Area()
-		all_sprites = pygame.sprite.Group()
-		all_sprites.add(area)
-		game_over3 = False
-		ogre_list = pygame.sprite.Group()
-		area_list = pygame.sprite.Group()
-		area_list.add(area)
-		player1 = Player1()
-		player2 = Player2()
-		player3 = Player3()
-		player4 = Player4()
-		all_sprites.add(player1, player2, player3, player4)
-		p_list.add(player1, player2, player3, player4)
-		ogre = Ogre()
-		all_sprites.add(ogre)
-		ogre_list.add(ogre)
-		start_time = pygame.time.get_ticks()
-
-	if game_over4:
-		show_game_over_screenp4()
-		p_list = pygame.sprite.Group()
-		screen.blit(background,(0,0))
-		game_over4 = False
-		area = Area()
-		all_sprites = pygame.sprite.Group()
-		all_sprites.add(area)	
-		ogre_list = pygame.sprite.Group()
-		area_list = pygame.sprite.Group()
-		area_list.add(area)
-		player1 = Player1()
-		player2 = Player2()
-		player3 = Player3()
-		player4 = Player4()
-		all_sprites.add(player1, player2, player3, player4)
-		p_list.add(player1, player2, player3, player4)
-		ogre = Ogre()
-		all_sprites.add(ogre)
+		all_sprites.add(player1, player2, ogre)
+		p_list.add(player1, player2)
 		ogre_list.add(ogre)
 		start_time = pygame.time.get_ticks()
 	
@@ -600,12 +418,9 @@ while running:
 		area_list.add(area)
 		player1 = Player1()
 		player2 = Player2()
-		player3 = Player3()
-		player4 = Player4()
-		all_sprites.add(player1, player2, player3, player4)
-		p_list.add(player1, player2, player3, player4)
 		ogre = Ogre()
-		all_sprites.add(ogre)
+		all_sprites.add(player1, player2, ogre)
+		p_list.add(player1, player2)
 		ogre_list.add(ogre)
 		start_time = pygame.time.get_ticks()
 
@@ -622,12 +437,9 @@ while running:
 		area_list.add(area)
 		player1 = Player1()
 		player2 = Player2()
-		player3 = Player3()
-		player4 = Player4()
-		all_sprites.add(player1, player2, player3, player4)
-		p_list.add(player1, player2, player3, player4)	
 		ogre = Ogre()
-		all_sprites.add(ogre)
+		all_sprites.add(player1, player2, ogre)
+		p_list.add(player1, player2)
 		ogre_list.add(ogre)
 		start_time = pygame.time.get_ticks()
 		
@@ -640,48 +452,18 @@ while running:
 	
 	
 	now = (pygame.time.get_ticks() - start_time)//1000
-	e = player1.hp == 0 and player2.hp == 0 and player3.hp == 0 and player4.hp == 0
+	e = player1.hp == 0 and player2.hp == 0
 	if now >= 120 or len(p_list) == 0:
 		a = player1.damage
 		b = player2.damage
-		c = player3.damage
-		d = player4.damage
-		if a > b and a > c and a > d:
+		
+		if a > b :
 			game_over1 = True
-		if b > a and b > c and b > d:
+		if b > a :
 			game_over2 = True
-		if c > a and c > b and c > d:
-			game_over3 = True
-		if d > a and d > b and d > c:
-			game_over4 = True
-		if a == b and a > c and a > d:
+		if a == b :
 			game_over5 = True
-		if b == c and b > a and b > d:
-			game_over5 = True
-		if c == d and c > a and c > d:
-			game_over5 = True
-		if a == c and a > b and a > d:
-			game_over5 = True
-		if a == d and a > c and a > b:
-			game_over5 = True
-		if b == d and b > a and b > c:
-			game_over5 = True
-		if a == b and c == d and a != c:
-			game_over5 = True
-		if b == c and a == d and b != a:
-			game_over5 = True
-		if a == c and b == d and a != b:
-			game_over5 = True
-		if a == b == c and a > d:
-			game_over5 = True
-		if a == c == d and a > b:
-			game_over5 = True
-		if b == c == d and a < c:
-			game_over5 = True
-		if a == b == d and a > c:
-			game_over5 = True
-		if a == b == c == d:
-			game_over5 = True
+		
 
 	all_sprites.update()
 		
@@ -700,22 +482,6 @@ while running:
 			if player2.counter2:
 				player2.counter2 = False
 				player2.hp -= 217
-		
-	# Checar colisiones - player3 - ogre
-	hits = pygame.sprite.spritecollide(player3, area_list, False)
-	for hit in hits:
-		if ogre.attack:
-			if player3.counter2:
-				player3.counter2 = False
-				player3.hp -= 217
-		
-	# Checar colisiones - player4 - ogre
-	hits = pygame.sprite.spritecollide(player4, area_list, False)
-	for hit in hits:
-		if ogre.attack:
-			if player4.counter2:
-				player4.counter2 = False
-				player4.hp -= 217
 		
 	# Checar colisiones - player1 - ogre
 	hits = pygame.sprite.spritecollide(player1, ogre_list, False)
@@ -737,28 +503,6 @@ while running:
 				player2.damage += 10
 		if not keystate[pygame.K_p]:
 			player2.counter1 = True
-
-	# Checar colisiones - player3 - ogre
-	hits = pygame.sprite.spritecollide(player3, ogre_list, False)
-	for hit in hits:
-		keystate = pygame.key.get_pressed()
-		if player3.counter1:
-			if keystate[pygame.K_y]:
-				player3.counter1 = False
-				player3.damage += 10
-		if not keystate[pygame.K_y]:
-			player3.counter1 = True
-
-	# Checar colisiones - player4 - ogre
-	hits = pygame.sprite.spritecollide(player4, ogre_list, False)
-	for hit in hits:
-		keystate = pygame.key.get_pressed()
-		if player4.counter1:
-			if keystate[pygame.K_o]:
-				player4.counter1 = False
-				player4.damage += 10
-		if not keystate[pygame.K_o]:
-			player4.counter1 = True
 		
 	screen.blit(background, [0, 0])
 
@@ -767,8 +511,6 @@ while running:
 	# Escudo.
 	draw_text1(screen, "P1", 20, 110, 6)
 	draw_text1(screen, "P2", 20, 400, 6)
-	draw_text1(screen, "P3", 20, 700, 6)
-	draw_text1(screen, "P4", 20, 1000, 6)
 
 	draw_hp_bar(screen, 120, 5, player1.hp//10)
 	draw_text2(screen, str(int(player1.hp)) + "/1000", 10, 145, 6)
@@ -780,22 +522,10 @@ while running:
 	if player2.hp > 0:
 		draw_hp_bar(screen, player2.rect.x, player2.rect.y - 10, player2.hp//10)
 
-	draw_hp_bar(screen, 715, 5, player3.hp//10)
-	draw_text2(screen, str(int(player3.hp))+ "/1000", 10, 740, 6)
-	if player3.hp > 0:
-		draw_hp_bar(screen, player3.rect.x, player3.rect.y - 10, player3.hp//10)
-
-	draw_hp_bar(screen, 1015, 5, player4.hp//10)
-	draw_text2(screen, str(int(player4.hp))+ "/1000", 10, 1040, 6)
-	if player4.hp > 0:
-		draw_hp_bar(screen, player4.rect.x, player4.rect.y - 10, player4.hp//10)
-
 	#tabla de puntuación
 
 	draw_text2(screen,"P1 " + str(int(player1.damage)) , 10, 1050, 300)
 	draw_text2(screen,"P2 " + str(int(player2.damage)) , 10, 1050, 310)
-	draw_text2(screen, "P3 " + str(int(player3.damage)) , 10, 1050, 320)
-	draw_text2(screen, "P4 " + str(int(player4.damage)) , 10, 1050, 330)
 	
 	#reloj
 	draw_text1(screen, str((((pygame.time.get_ticks() - start_time)//60000)+(60))%(60))+":" + str((((pygame.time.get_ticks() - start_time)//1000)+(60))%(60)), 30, 570, 50)
