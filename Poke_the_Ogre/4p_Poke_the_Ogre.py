@@ -307,17 +307,9 @@ class Ogre(pygame.sprite.Sprite):
 		self.target = sorted(distance_list, key=lambda x: x[0])[0][1]
 
 		if self.counter:
-			if (self.target.rect.centerx - self.rect.centerx) == 0:
-				if self.target.rect.centery > self.rect.centery:
-					self.rect.centery += self.speed 
-				elif self.rect.centery > self.target.rect.centery:
-					self.rect.centery -= self.speed
-				else:
-					self.rect.centery += 0
-			elif (self.target.rect.centerx - self.rect.centerx) != 0:
-				x,y = direction(self, self.target)
-				self.rect.centerx += self.speed*x
-				self.rect.centery += self.speed*y
+			x,y = direction(self, self.target)
+			self.rect.centerx += self.speed*x
+			self.rect.centery += self.speed*y
 		if self.counter:
 			
 			if ((abs(self.target.rect.centerx - self.rect.centerx) < 4 and 
@@ -767,23 +759,19 @@ while running:
 
 	draw_hp_bar(screen, 120, 5, player1.hp//10)
 	draw_text2(screen, str(int(player1.hp)) + "/1000", 10, 145, 6)
-	if player1.hp > 0:
-		draw_hp_bar(screen, player1.rect.x, player1.rect.y - 10, player1.hp//10)
 
 	draw_hp_bar(screen, 415, 5, player2.hp//10)
 	draw_text2(screen, str(int(player2.hp))+ "/1000", 10, 440, 6)
-	if player2.hp > 0:
-		draw_hp_bar(screen, player2.rect.x, player2.rect.y - 10, player2.hp//10)
 
 	draw_hp_bar(screen, 715, 5, player3.hp//10)
 	draw_text2(screen, str(int(player3.hp))+ "/1000", 10, 740, 6)
-	if player3.hp > 0:
-		draw_hp_bar(screen, player3.rect.x, player3.rect.y - 10, player3.hp//10)
 
 	draw_hp_bar(screen, 1015, 5, player4.hp//10)
 	draw_text2(screen, str(int(player4.hp))+ "/1000", 10, 1040, 6)
-	if player4.hp > 0:
-		draw_hp_bar(screen, player4.rect.x, player4.rect.y - 10, player4.hp//10)
+
+	for p in p_list:
+		if p.hp > 0:
+			draw_hp_bar(screen, p.rect.x, p.rect.y - 10, p.hp//10)
 
 	#tabla de puntuación
 
