@@ -68,7 +68,11 @@ def direction(a,b):
 	dx = b.rect.centerx - a.rect.centerx
 	dy = b.rect.centery - a.rect.centery
 	radio = (dx**2 + dy**2)**(1/2)
-	return dx/radio, dy/radio
+	if radio != 0:
+		x, y = (dx/radio, dy/radio)
+	else:
+		x, y = (0, 0)
+	return x, y
 
 class Player(pygame.sprite.Sprite):
 	def __init__(self):
@@ -266,22 +270,13 @@ class Area(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect()
 		self.rect.centerx = 700
 		self.rect.centery = 266
-		self.target = None
 		self.speed = 20
 
 	def update(self):
-		self.target = ogre
-		if (self.target.rect.centerx - self.rect.centerx) == 0:
-			if self.target.rect.centery > self.rect.centery:
-				self.rect.centery += self.speed 
-			elif self.rect.centery > self.target.rect.centery:
-				self.rect.centery -= self.speed
-			else:
-				self.rect.centery += 0
-		elif (self.target.rect.centerx - self.rect.centerx) != 0:
-			x,y = direction(self, self.target)
-			self.rect.centerx += self.speed*x
-			self.rect.centery += self.speed*y
+		target = ogre
+		x,y = direction(self, target)
+		self.rect.centerx += self.speed*x
+		self.rect.centery += self.speed*y
 
 class Ogre(pygame.sprite.Sprite):
 
@@ -343,7 +338,7 @@ class Ogre_anim(pygame.sprite.Sprite):
 		self.rect.center = center
 		self.frame = 0
 		self.last_update = pygame.time.get_ticks()
-		self.frame_rate = 35 # VELOCIDAD DE LA animación
+		self.frame_rate = 35 # VELOCIDAD DE LA animación(mientras menor el numero, mas rapido la animacion)
 
 	def update(self):
 		now = pygame.time.get_ticks()
