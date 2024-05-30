@@ -255,7 +255,7 @@ class Ogre_anim(pygame.sprite.Sprite):
 		self.rect.center = center
 		self.frame = 0
 		self.last_update = pygame.time.get_ticks()
-		self.frame_rate = 50 # VELOCIDAD DE LA animación
+		self.frame_rate = 35 # VELOCIDAD DE LA animación
 
 	def update(self):
 		now = pygame.time.get_ticks()
