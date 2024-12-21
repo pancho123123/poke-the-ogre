@@ -16,6 +16,8 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Poke the Ogre")
 clock = pygame.time.Clock()
 
+damage_list = 0
+
 def draw_text1(surface, text, size, x, y):
 	font = pygame.font.SysFont("serif", size)
 	text_surface = font.render(text, True, WHITE)
@@ -303,6 +305,21 @@ class Ogre_anim(pygame.sprite.Sprite):
 		if self.frame == 46:
 			ogre.attack = False
 
+class DamageCounter(pygame.sprite.Sprite):
+	def __init__(self, damage):
+		super().__init__()
+		self.image = pygame.image.load("img/blank.png")
+		self.rect = self.image.get_rect()
+		self.start_time = pygame.time.get_ticks()
+		self.damage = damage
+
+	def update(self):
+		current_time = pygame.time.get_ticks()
+		elapsed_time = current_time - self.start_time
+		if elapsed_time >= 8000:
+			self.damage -= 1
+			self.kill()
+
 def show_go_screen():
 	
 	screen.fill(BLACK)
@@ -421,6 +438,7 @@ running = True
 start = True
 while running:
 	if game_over1:
+		damage_list = 0
 		show_game_over_screenp1()
 		p_list = pygame.sprite.Group()
 		screen.blit(background,(0,0))
@@ -441,6 +459,7 @@ while running:
 		start_time = pygame.time.get_ticks()
 
 	if game_over2:
+		damage_list = 0
 		show_game_over_screenp2()
 		p_list = pygame.sprite.Group()
 		screen.blit(background,(0,0))
@@ -461,6 +480,7 @@ while running:
 		start_time = pygame.time.get_ticks()
 
 	if game_over3:
+		damage_list = 0
 		show_game_over_screenp3()
 		p_list = pygame.sprite.Group()
 		screen.blit(background,(0,0))
@@ -481,6 +501,7 @@ while running:
 		start_time = pygame.time.get_ticks()
 	
 	if game_over5:
+		damage_list = 0
 		show_game_over_screend()
 		p_list = pygame.sprite.Group()
 		screen.blit(background,(0,0))
@@ -582,8 +603,11 @@ while running:
 		keystate = pygame.key.get_pressed()
 		if player1.counter1:
 			if keystate[pygame.K_e]:
+				damage_list += 1
+				damage = DamageCounter(damage_list)
+				all_sprites.add(damage)
 				player1.counter1 = False
-				player1.damage += 10
+				player1.damage += 1*(damage_list -1)
 		if not keystate[pygame.K_e]:
 			player1.counter1 = True
 	# Checar colisiones - player2 - ogre
@@ -592,8 +616,11 @@ while running:
 		keystate = pygame.key.get_pressed()
 		if player2.counter1:
 			if keystate[pygame.K_p]:
+				damage_list += 1
+				damage = DamageCounter(damage_list)
+				all_sprites.add(damage)
 				player2.counter1 = False
-				player2.damage += 10
+				player2.damage += 1*(damage_list -1)
 		if not keystate[pygame.K_p]:
 			player2.counter1 = True
 
@@ -603,8 +630,11 @@ while running:
 		keystate = pygame.key.get_pressed()
 		if player3.counter1:
 			if keystate[pygame.K_y]:
+				damage_list += 1
+				damage = DamageCounter(damage_list)
+				all_sprites.add(damage)
 				player3.counter1 = False
-				player3.damage += 10
+				player3.damage += 1*(damage_list -1)
 		if not keystate[pygame.K_y]:
 			player3.counter1 = True
 
