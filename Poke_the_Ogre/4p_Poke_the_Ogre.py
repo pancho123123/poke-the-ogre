@@ -347,8 +347,13 @@ class Ogre_anim(pygame.sprite.Sprite):
 				self.rect = self.image.get_rect()
 				self.rect.center = center
 		if self.frame == 45:
+			if self.counter:
+				self.counter = False
+				ogre_crush_sound.play()
+			
 			ogre.attack = True
 		if self.frame == 46:
+			self.counter = True
 			ogre.attack = False
 
 class DamageCounter(pygame.sprite.Sprite):
@@ -492,6 +497,8 @@ for i in range(73):
 	img.set_colorkey(WHITE)
 	img_scale = pygame.transform.scale(img, (400,400))
 	ogre_anim.append(img_scale)
+
+ogre_crush_sound = pygame.mixer.Sound("sound/ogre_crush.wav")
 
 background = pygame.transform.scale(pygame.image.load("img/fond.png").convert(), (1300,700))
 

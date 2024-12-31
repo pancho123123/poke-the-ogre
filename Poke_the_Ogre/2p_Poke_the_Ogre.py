@@ -244,6 +244,7 @@ class Ogre_anim(pygame.sprite.Sprite):
 		self.frame = 0
 		self.last_update = pygame.time.get_ticks()
 		self.frame_rate = 35 # VELOCIDAD DE LA animación(mientras menor el numero, mas rapido la animacion)
+		self.counter = True
 
 	def update(self):
 		now = pygame.time.get_ticks()
@@ -257,9 +258,15 @@ class Ogre_anim(pygame.sprite.Sprite):
 				self.image = ogre_anim[self.frame]
 				self.rect = self.image.get_rect()
 				self.rect.center = center
+				
 		if self.frame == 45:
+			if self.counter:
+				self.counter = False
+				ogre_crush_sound.play()
+			
 			ogre.attack = True
 		if self.frame == 46:
+			self.counter = True
 			ogre.attack = False
 
 class DamageCounter(pygame.sprite.Sprite):
@@ -298,7 +305,6 @@ def show_go_screen():
 
 def show_game_over_screenp1():
 	screen.fill(BLACK)
-	#draw_text1(screen, "Qop", 65, WIDTH // 2, HEIGHT // 4)
 	draw_text1(screen, "Player 1 WINS", 40, WIDTH // 2, HEIGHT // 2)
 	draw_text1(screen, "Press Q", 20, WIDTH // 2, HEIGHT * 3/4)
 	draw_text1(screen, "P1 " + str(int(player1.damage)) , 20, WIDTH // 2, 420)
@@ -317,7 +323,6 @@ def show_game_over_screenp1():
 
 def show_game_over_screenp2():
 	screen.fill(BLACK)
-	#draw_text1(screen, "Qop", 65, WIDTH // 2, HEIGHT // 4)
 	draw_text1(screen, "Player 2 WINS", 40, WIDTH // 2, HEIGHT // 2)
 	draw_text1(screen, "Press Q", 20, WIDTH // 2, HEIGHT * 3/4)
 	draw_text1(screen, "P1 " + str(int(player1.damage)) , 20, WIDTH // 2, 420)
@@ -337,7 +342,6 @@ def show_game_over_screenp2():
 
 def show_game_over_screend():
 	screen.fill(BLACK)
-	#draw_text1(screen, "Qop", 65, WIDTH // 2, HEIGHT // 4)
 	draw_text1(screen, "DRAW", 40, WIDTH // 2, HEIGHT // 2)
 	draw_text1(screen, "Press Q", 20, WIDTH // 2, HEIGHT * 3/4)
 	draw_text1(screen, "P1 " + str(int(player1.damage)) , 20, WIDTH // 2, 420)
@@ -362,6 +366,8 @@ for i in range(73):
 	img.set_colorkey(WHITE)
 	img_scale = pygame.transform.scale(img, (400,400))
 	ogre_anim.append(img_scale)
+
+ogre_crush_sound = pygame.mixer.Sound("sound/ogre_crush.wav")
 
 background = pygame.transform.scale(pygame.image.load("img/fond.png").convert(), (1300,700))
 
@@ -459,7 +465,7 @@ while running:
 	
 	
 	now = (pygame.time.get_ticks() - start_time)//1000
-	e = player1.hp == 0 and player2.hp == 0
+	#e = player1.hp == 0 and player2.hp == 0
 	if now >= 120 or len(p_list) == 0:
 		a = player1.damage
 		b = player2.damage
