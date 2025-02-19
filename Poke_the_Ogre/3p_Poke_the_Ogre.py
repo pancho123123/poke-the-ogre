@@ -9,6 +9,7 @@ GREEN = (0, 255, 0)
 RED = (255,0,0)
 BLUE = (0,0,255)
 BROWN = (50,20,30)
+YELLOW = (255,255,0)
 
 pygame.init()
 pygame.mixer.init()
@@ -35,14 +36,35 @@ def draw_text2(surface, text, size, x, y):
 	text_rect.midtop = (x, y)
 	surface.blit(text_surface, text_rect)
 
+def draw_text3(surface, text, size, x, y):
+	font = pygame.font.SysFont("serif", size)
+	text_surface = font.render(text, True, BLUE)
+	text_rect = text_surface.get_rect()
+	text_rect.midtop = (x, y)
+	surface.blit(text_surface, text_rect)
+
+def draw_text4(surface, text, size, x, y):
+	font = pygame.font.SysFont("serif", size)
+	text_surface = font.render(text, True, RED)
+	text_rect = text_surface.get_rect()
+	text_rect.midtop = (x, y)
+	surface.blit(text_surface, text_rect)
+
+def draw_text5(surface, text, size, x, y):
+	font = pygame.font.SysFont("serif", size)
+	text_surface = font.render(text, True, YELLOW)
+	text_rect = text_surface.get_rect()
+	text_rect.midtop = (x, y)
+	surface.blit(text_surface, text_rect)
+
 def draw_hp_bar(surface, x, y, percentage):
 	BAR_LENGHT = 50
 	BAR_HEIGHT = 10
 	fill = (percentage / 100) * BAR_LENGHT
 	border = pygame.Rect(x, y, BAR_LENGHT, BAR_HEIGHT)
 	fill = pygame.Rect(x, y, fill, BAR_HEIGHT)
-	pygame.draw.rect(surface, GREEN, fill)
-	pygame.draw.rect(surface, WHITE, border, 2)
+	pygame.draw.rect(surface, BLUE, fill)
+	pygame.draw.rect(surface, BLACK, border, 2)
 
 def draw_hp_bar2(surface, x, y, percentage):
 	BAR_LENGHT = 50
@@ -50,8 +72,17 @@ def draw_hp_bar2(surface, x, y, percentage):
 	fill = (percentage / 100) * BAR_LENGHT
 	border = pygame.Rect(x, y, BAR_LENGHT, BAR_HEIGHT)
 	fill = pygame.Rect(x, y, fill, BAR_HEIGHT)
-	pygame.draw.rect(surface, BROWN, fill)
-	pygame.draw.rect(surface, BROWN, border, 2)
+	pygame.draw.rect(surface, RED, fill)
+	pygame.draw.rect(surface, BLACK, border, 2)
+
+def draw_hp_bar3(surface, x, y, percentage):
+	BAR_LENGHT = 50
+	BAR_HEIGHT = 10
+	fill = (percentage / 100) * BAR_LENGHT
+	border = pygame.Rect(x, y, BAR_LENGHT, BAR_HEIGHT)
+	fill = pygame.Rect(x, y, fill, BAR_HEIGHT)
+	pygame.draw.rect(surface, YELLOW, fill)
+	pygame.draw.rect(surface, BLACK, border, 2)
 
 def draw_mana_bar(surface, x, y, percentage):
 	BAR_LENGHT = 50
@@ -655,13 +686,18 @@ while running:
 	draw_text2(screen, str(int(player3.hp))+ "/1000", 10, 740, 6)
 	for p in p_list:
 		if p.hp > 0:
-			draw_hp_bar(screen, p.rect.x, p.rect.y - 10, p.hp//10)
+			if p == player1:
+				draw_hp_bar(screen, p.rect.x, p.rect.y - 10, p.hp//10)
+			if p == player2:
+				draw_hp_bar2(screen, p.rect.x, p.rect.y - 10, p.hp//10)
+			if p == player3:
+				draw_hp_bar3(screen, p.rect.x, p.rect.y - 10, p.hp//10)
 
 	#tabla de puntuación
 
-	draw_text2(screen,"P1 " + str(int(player1.damage)) , 10, 1050, 300)
-	draw_text2(screen,"P2 " + str(int(player2.damage)) , 10, 1050, 310)
-	draw_text2(screen, "P3 " + str(int(player3.damage)) , 10, 1050, 320)
+	draw_text3(screen,"P1 " + str(int(player1.damage)) , 10, 1050, 300)
+	draw_text4(screen,"P2 " + str(int(player2.damage)) , 10, 1050, 310)
+	draw_text5(screen, "P3 " + str(int(player3.damage)) , 10, 1050, 320)
 	
 	#reloj
 	draw_text1(screen, str((((pygame.time.get_ticks() - start_time)//60000)+(60))%(60))+":" + str((((pygame.time.get_ticks() - start_time)//1000)+(60))%(60)), 30, 570, 50)
